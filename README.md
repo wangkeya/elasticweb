@@ -58,3 +58,13 @@ IMG ?= docker.io/wangkeya/controller:latest
 ```
 
 ### 部署
+```text
+
+make install
+
+make docker-build docker-push
+
+# 部署
+make deploy
+```
+
