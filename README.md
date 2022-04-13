@@ -1,5 +1,5 @@
 webhook开发指南
-=============
+===============
 
 ### 项目初始化
 
@@ -10,8 +10,8 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 go mod init elasticweb
 ```
 
-
 ### 安装webhook
+
 ```text
 
 kubebuilder init --domain my.com --license apache2 --owner "wangkeya"
@@ -26,10 +26,10 @@ kubebuilder create webhook \
 --programmatic-validation
 ```
 
-
-
 修改内容如下
+
 1. dockerfile修改
+
 ```dockerfile
 
 # 修改前
@@ -43,14 +43,16 @@ RUN GOPROXY=https://goproxy.cn go mod download
 # 修改后
 FROM kubeimages/distroless-static:latest
 ```
+
 2. manager_auth_proxy_path.yaml修改
+
 ```yaml
 # 修改后
 docker.io/kubesphere/kube-rbac-proxy:v0.11.0
 ```
 
-
 3. makefile修改
+
 ```makefile
 
 # 修改后
@@ -58,6 +60,7 @@ IMG ?= docker.io/wangkeya/controller:latest
 ```
 
 ### 部署
+
 ```text
 
 make install
@@ -68,3 +71,16 @@ make docker-build docker-push
 make deploy
 ```
 
+### 验证
+
+```shell
+kubectl patch elasticweb elasticweb-sample \
+-n dev \
+--type merge \
+--patch "$(cat config/samples/update_single_pod_qps.yaml)"
+```
+
+
+### 参考地址
+
+https://www.cnblogs.com/bolingcavalry/p/15217104.html
